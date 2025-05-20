@@ -16,7 +16,7 @@ class CodeEditor:
         # line number gutter
         self.linenumbers = tk.Text(self.text_frame, width=4, padx=5, takefocus=0,
                                    border=0, background='lightgrey', state=tk.DISABLED,
-                                   wrap=tk.NONE, justify=tk.RIGHT)
+                                   wrap=tk.NONE)
         self.linenumbers.pack(side=tk.LEFT, fill=tk.Y)
         self.text = tk.Text(self.text_frame, wrap=tk.NONE)
         # double the default font size
@@ -86,5 +86,7 @@ class CodeEditor:
         self.linenumbers.delete("1.0", tk.END)
         line_count = int(self.text.index('end-1c').split('.')[0])
         numbers = "\n".join(str(i) for i in range(1, line_count+1))
-        self.linenumbers.insert("1.0", numbers)
+        # right-align line numbers via tag
+        self.linenumbers.tag_configure("right", justify=tk.RIGHT)
+        self.linenumbers.insert("1.0", numbers, "right")
         self.linenumbers.config(state=tk.DISABLED)
