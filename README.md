@@ -1,6 +1,6 @@
-# VarInspector
+# Pyxion
 
-A cross-platform Python GUI application featuring a code editor with syntax highlighting and a real-time variable inspector.
+Reactive python expression evaluator / calculator GUI for programmers.
 
 Install:
 
