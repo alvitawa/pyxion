@@ -9,6 +9,8 @@ def main():
     # set default windowed size and normal state
     root.geometry("320x240")
     root.attributes('-fullscreen', False)
+    # hint to the WM (sway/Wayland) to open this window as floating
+    root.wm_attributes('-type', 'dialog')
 
     paned = ttk.PanedWindow(root, orient=tk.HORIZONTAL)
     paned.pack(fill=tk.BOTH, expand=1)
