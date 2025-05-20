@@ -18,7 +18,7 @@ class Inspector:
         func_code = "def __varinspector():\n"
         for line in code.splitlines():
             func_code += "    " + line + "\n"
-        func_code += "    return {" + ", ".join(f\"'{n}': {n}\" for n in var_names) + "}\n"
+        func_code += "    return {" + ", ".join(f"'{n}': {n}" for n in var_names) + "}\n"
         namespace = {}
         try:
             exec(func_code, namespace)
