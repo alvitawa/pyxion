@@ -42,4 +42,6 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
+    print("Starting pyxion.")
     main()
+    print("Exited pyxion.")
