@@ -9,8 +9,14 @@ class Inspector:
         self.text.pack(fill=tk.BOTH, expand=1)
 
     def start_inspection(self, interval=1000):
+        # initial inspection and bind to editor changes instead of polling
         self._inspect()
-        self.frame.after(interval, lambda: self.start_inspection(interval))
+        self.editor.text.edit_modified(False)
+        self.editor.text.bind("<<Modified>>", self._on_modified)
+
+    def _on_modified(self, event=None):
+        self._inspect()
+        self.editor.text.edit_modified(False)
 
     def _inspect(self):
         code = self.editor.text.get("1.0", tk.END)

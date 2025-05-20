@@ -16,7 +16,9 @@ def main():
     paned.add(editor.text_frame, weight=3)
     paned.add(inspector.frame, weight=1)
 
-    inspector.start_inspection()
+    # start inspection using a tweakable interval
+    DEFAULT_INSPECT_INTERVAL = 1000  # milliseconds; adjust as needed
+    inspector.start_inspection(interval=DEFAULT_INSPECT_INTERVAL)
     root.mainloop()
 
 if __name__ == "__main__":
