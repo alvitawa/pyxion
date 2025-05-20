@@ -21,7 +21,8 @@ class Inspector:
         # initial inspection and bind to editor changes instead of polling
         self._inspect()
         self.editor.text.edit_modified(False)
-        self.editor.text.bind("<<Modified>>", self._on_modified)
+        # bind inspector to editor modifications alongside existing handlers
+        self.editor.text.bind("<<Modified>>", self._on_modified, add="+")
 
     def _on_modified(self, event=None):
         """Handle editor changes by triggering a new inspection cycle."""
