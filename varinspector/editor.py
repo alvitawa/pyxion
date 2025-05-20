@@ -16,13 +16,15 @@ class CodeEditor:
         # line number gutter
         self.linenumbers = tk.Text(self.text_frame, width=4, padx=5, takefocus=0,
                                    border=0, background='lightgrey', state=tk.DISABLED,
-                                   wrap=tk.NONE)
+                                   wrap=tk.NONE, justify=tk.RIGHT)
         self.linenumbers.pack(side=tk.LEFT, fill=tk.Y)
         self.text = tk.Text(self.text_frame, wrap=tk.NONE)
         # double the default font size
         font = tkfont.Font(font=self.text['font'])
         font.configure(size=font['size'] * 2)
         self.text.configure(font=font)
+        # use same font for line numbers
+        self.linenumbers.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
         # load and sync with state file
         config_dir = Path.home() / '.config' / 'pyxion'
@@ -37,6 +39,8 @@ class CodeEditor:
         self._style = get_style_by_name('default')
         self._configure_tags()
         self.text.bind("<<Modified>>", self._on_modified)
+        # update gutter whenever text changes
+        self.text.bind("<<Modified>>", self._update_linenumbers, add="+")
         self.text.edit_modified(False)
         # ensure there is an empty row at end
         content = self.text.get("1.0", tk.END)
