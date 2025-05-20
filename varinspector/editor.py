@@ -33,7 +33,11 @@ class CodeEditor:
         self._configure_tags()
         self.text.bind("<<Modified>>", self._on_modified)
         self.text.edit_modified(False)
-        # focus editor on empty row at end
+        # ensure there is an empty row at end
+        content = self.text.get("1.0", tk.END)
+        if not content.endswith("\n\n"):
+            self.text.insert(tk.END, "\n")
+        # focus editor at end
         self.text.focus_set()
         self.text.mark_set("insert", "end")
         self.text.see("insert")
