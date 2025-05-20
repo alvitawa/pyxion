@@ -3,6 +3,7 @@ import tkinter.font as tkfont
 import pygments
 from pygments.lexers import PythonLexer
 from pygments.styles import get_style_by_name
+from pathlib import Path
 import os
 import sys
 
@@ -16,9 +17,9 @@ class CodeEditor:
         self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
         # load and sync with state file
-        config_path = os.path.expanduser('~/.config/pyxion/state.py')
-        os.makedirs(os.path.dirname(config_path), exist_ok=True)
-        if os.path.exists(config_path):
+        config_path = Path.home() / '.config' / 'pyxion' / 'state.py'
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        if config_path.exists():
             with open(config_path, 'r') as f:
                 content = f.read()
             self.text.insert('1.0', content)
@@ -40,7 +41,7 @@ class CodeEditor:
         self._highlight(code)
         # save state to file
         try:
-            with open(self._state_path, 'w') as f:
+            with self._state_path.open('w') as f:
                 f.write(code)
         except Exception as e:
             print(f"Failed to save editor state: {e}", file=sys.stderr)
