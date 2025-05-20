@@ -43,8 +43,8 @@ class CodeEditor:
         # common keyboard shortcuts
         self.text.bind('<Control-a>', self._select_all)
         self.text.bind('<Control-A>', self._select_all)
-        self.text.bind('<Control-BackSpace>', self._delete_prev_word)
-        self.text.bind('<Control-Delete>', self._delete_next_word)
+        self.text.bind('<Control-BackSpace>', self._delete_prev_word, add="+")
+        self.text.bind('<Control-Delete>', self._delete_next_word, add="+")
         self.text.edit_modified(False)
         # ensure there is an empty row at end
         content = self.text.get("1.0", tk.END)
