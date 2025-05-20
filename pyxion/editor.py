@@ -22,7 +22,6 @@ class CodeEditor:
                                    wrap=tk.NONE)
         self.linenumbers.pack(side=tk.LEFT, fill=tk.Y)
         self.text = tk.Text(self.text_frame, wrap=tk.NONE)
-        # double the default font size
         font = tkfont.Font(font=self.text['font'], size=font_size)
         self.text.configure(font=font)
         # use same font for line numbers
