@@ -15,7 +15,7 @@ def main():
     if not prelude_path.exists():
         with open(prelude_path, 'w') as f:
             f.write('import numpy as np\nfrom math import *\n')
-    root.title("VarInspector")
+    root.title("Pyxion")
     # set default windowed size and normal state
     root.geometry("520x340")
     root.attributes('-fullscreen', False)

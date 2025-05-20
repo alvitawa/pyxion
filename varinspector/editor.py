@@ -14,7 +14,7 @@ class CodeEditor:
         """Set up the text widget, load saved state, and configure syntax highlighting."""
         self.text_frame = tk.Frame(parent)
         # line number gutter
-        self.linenumbers = tk.Text(self.text_frame, width=4, padx=5, takefocus=0,
+        self.linenumbers = tk.Text(self.text_frame, width=2, padx=5, takefocus=0,
                                    border=0, background='lightgrey', state=tk.DISABLED,
                                    wrap=tk.NONE)
         self.linenumbers.pack(side=tk.LEFT, fill=tk.Y)
