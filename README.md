@@ -11,5 +11,5 @@ pip install .
 Run:
 
 ```bash
-varinspector
+pyxion
 ```

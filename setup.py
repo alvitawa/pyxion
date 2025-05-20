@@ -5,7 +5,7 @@ with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as f:
     requirements = f.read().splitlines()
 
 setup(
-    name='varinspector',
+    name='pyxion',
     version='0.1.0',
     description='Python GUI app with editor and variable inspector',
     author='Your Name',
@@ -14,7 +14,7 @@ setup(
     install_requires=requirements,
     entry_points={
         'console_scripts': [
-            'varinspector=varinspector.main:main',
+            'pyxion=varinspector.main:main',
         ],
     },
 )
