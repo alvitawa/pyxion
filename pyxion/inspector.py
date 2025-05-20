@@ -3,8 +3,6 @@ import tkinter as tk
 import tkinter.font as tkfont
 import re
 import sys
-from pathlib import Path
-import toml
 
 class Inspector:
     """Real-time variable inspector pane linked to the code editor."""
@@ -14,7 +12,6 @@ class Inspector:
         self.config = config
         font_size = self.config.font_size
         self.text = tk.Text(self.frame, state=tk.DISABLED)
-        # double the default font size
         font = tkfont.Font(font=self.text['font'], size=font_size)
         self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
