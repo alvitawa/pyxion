@@ -5,6 +5,7 @@ import pygments
 from pygments.lexers import PythonLexer
 from pygments.styles import get_style_by_name
 from pathlib import Path
+import toml
 import os
 import sys
 
@@ -13,6 +14,15 @@ class CodeEditor:
     def __init__(self, parent, config_dir):
         """Set up the text widget, load saved state, and configure syntax highlighting."""
         self.config_dir = config_dir
+        # load font_size from config
+        config_path = self.config_dir / 'config.toml'
+        font_size = 20
+        if config_path.exists():
+            try:
+                cfg = toml.loads(config_path.read_text())
+                font_size = int(cfg.get('font_size', font_size))
+            except Exception as e:
+                print(f"Failed to read config: {e}", file=sys.stderr)
         self.text_frame = tk.Frame(parent)
         # line number gutter
         self.linenumbers = tk.Text(self.text_frame, width=2, padx=5, takefocus=0,
@@ -21,7 +31,7 @@ class CodeEditor:
         self.linenumbers.pack(side=tk.LEFT, fill=tk.Y)
         self.text = tk.Text(self.text_frame, wrap=tk.NONE)
         # double the default font size
-        font = tkfont.Font(font=self.text['font'], size=20)
+        font = tkfont.Font(font=self.text['font'], size=font_size)
         self.text.configure(font=font)
         # use same font for line numbers
         self.linenumbers.configure(font=font)

@@ -12,9 +12,18 @@ class Inspector:
         self.frame = tk.Frame(parent)
         self.editor = editor
         self.config_dir = config_dir
+        # load font_size from config
+        config_path = self.config_dir / 'config.toml'
+        font_size = 20
+        if config_path.exists():
+            try:
+                cfg = toml.loads(config_path.read_text())
+                font_size = int(cfg.get('font_size', font_size))
+            except Exception as e:
+                print(f"Failed to read config: {e}", file=sys.stderr)
         self.text = tk.Text(self.frame, state=tk.DISABLED)
         # double the default font size
-        font = tkfont.Font(font=self.text['font'], size=20)
+        font = tkfont.Font(font=self.text['font'], size=font_size)
         self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
 

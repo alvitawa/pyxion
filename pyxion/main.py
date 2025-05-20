@@ -19,7 +19,7 @@ def main():
     config_path = config_dir / 'config.toml'
     if not config_path.exists():
         with open(config_path, 'w') as f:
-            f.write('precision = 4\n')
+            f.write('precision = 4\nfont_size = 20\n')
     root.title("Pyxion")
     # set default windowed size and normal state
     root.geometry("520x340")
