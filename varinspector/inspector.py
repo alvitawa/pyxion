@@ -25,11 +25,26 @@ class Inspector:
 
     def _inspect(self):
         code = self.editor.text.get("1.0", tk.END)
-        var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', code))
+        lines = code.splitlines()
         func_code = "def __varinspector():\n"
-        for line in code.splitlines():
-            func_code += "    " + line + "\n"
-        func_code += "    return {" + ", ".join(f"'{n}': {n}" for n in var_names) + "}\n"
+        var_names = set()
+        for idx, line in enumerate(lines, start=1):
+            if re.match(r'\s*([a-zA-Z_]\w*)\s*=', line):
+                func_code += f"    {line}\n"
+                var_name = re.match(r'\s*([a-zA-Z_]\w*)\s*=', line).group(1)
+                var_names.add(var_name)
+            else:
+                temp_var = f"__var_{idx}"
+                func_code += f"    {temp_var} = {line}\n"
+                var_names.add(temp_var)
+        return_items = []
+        for n in var_names:
+            if n.startswith("__var_"):
+                idx = n.split("_")[-1]
+                return_items.append(f"'{idx}': {n}")
+            else:
+                return_items.append(f"'{n}': {n}")
+        func_code += "    return {" + ", ".join(return_items) + "}\n"
         namespace = {}
         try:
             exec(func_code, namespace)
