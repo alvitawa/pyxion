@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.font as tkfont
 import re
 
 class Inspector:
@@ -6,6 +7,10 @@ class Inspector:
         self.frame = tk.Frame(parent)
         self.editor = editor
         self.text = tk.Text(self.frame, state=tk.DISABLED)
+        # double the default font size
+        font = tkfont.Font(font=self.text['font'])
+        font.configure(size=font['size'] * 2)
+        self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
 
     def start_inspection(self, interval=1000):

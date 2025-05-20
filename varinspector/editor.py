@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.font as tkfont
 import pygments
 from pygments.lexers import PythonLexer
 from pygments.styles import get_style_by_name
@@ -7,6 +8,10 @@ class CodeEditor:
     def __init__(self, parent):
         self.text_frame = tk.Frame(parent)
         self.text = tk.Text(self.text_frame, wrap=tk.NONE)
+        # double the default font size
+        font = tkfont.Font(font=self.text['font'])
+        font.configure(size=font['size'] * 2)
+        self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
         self._lexer = PythonLexer()
         self._style = get_style_by_name('default')

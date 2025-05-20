@@ -6,6 +6,9 @@ from .inspector import Inspector
 def main():
     root = tk.Tk()
     root.title("VarInspector")
+    # set default windowed size and normal state
+    root.geometry("1024x768")
+    root.attributes('-fullscreen', False)
 
     paned = ttk.PanedWindow(root, orient=tk.HORIZONTAL)
     paned.pack(fill=tk.BOTH, expand=1)
