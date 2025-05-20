@@ -7,6 +7,14 @@ from .inspector import Inspector
 def main():
     """Initialize GUI, editor, and inspector, then start the Tk event loop."""
     root = tk.Tk()
+    # ensure config directory and write prelude.py
+    from pathlib import Path
+    config_dir = Path.home() / '.config' / 'pyxion'
+    config_dir.mkdir(parents=True, exist_ok=True)
+    prelude_path = config_dir / 'prelude.py'
+    if not prelude_path.exists():
+        with open(prelude_path, 'w') as f:
+            f.write('import numpy as np\nfrom math import *\n')
     root.title("VarInspector")
     # set default windowed size and normal state
     root.geometry("520x340")

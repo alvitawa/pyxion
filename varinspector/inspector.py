@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.font as tkfont
 import re
 import sys
+from pathlib import Path
 
 class Inspector:
     """Real-time variable inspector pane linked to the code editor."""
@@ -61,6 +62,15 @@ class Inspector:
         func_code += "    return {" + ", ".join(return_items) + "}\n"
         print(func_code)
         namespace = {}
+        # load and exec prelude script
+        config_dir = Path.home() / '.config' / 'pyxion'
+        prelude_path = config_dir / 'prelude.py'
+        if prelude_path.exists():
+            try:
+                with open(prelude_path, 'r') as f:
+                    exec(f.read(), namespace)
+            except Exception as e:
+                print(f"Failed to load prelude: {e}", file=sys.stderr)
         try:
             exec(func_code, namespace)
             result = namespace['__varinspector']()
