@@ -18,7 +18,7 @@ def main():
     editor = CodeEditor(paned)
     inspector = Inspector(paned, editor)
 
-    paned.add(editor.text_frame, weight=3)
+    paned.add(editor.text_frame, weight=1)
     paned.add(inspector.frame, weight=1)
 
     # start inspection using a tweakable interval
