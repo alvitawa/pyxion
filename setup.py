@@ -1,4 +1,8 @@
 from setuptools import setup, find_packages
+import os
+
+with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as f:
+    requirements = f.read().splitlines()
 
 setup(
     name='varinspector',
@@ -7,7 +11,7 @@ setup(
     author='Your Name',
     author_email='you@example.com',
     packages=find_packages(),
-    install_requires=['pygments'],
+    install_requires=requirements,
     entry_points={
         'console_scripts': [
             'varinspector=varinspector.main:main',
