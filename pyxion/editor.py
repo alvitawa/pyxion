@@ -102,7 +102,12 @@ class CodeEditor:
 
     def _delete_prev_word(self, event=None):
         """Delete the word before the cursor."""
-        self.text.delete("insert wordstart", "insert")
+        try:
+            # delete previous word, supporting deletion at word end
+            self.text.delete("insert -1c wordstart", "insert")
+        except tk.TclError:
+            # fallback to original behavior
+            self.text.delete("insert wordstart", "insert")
         return 'break'
 
     def _delete_next_word(self, event=None):
