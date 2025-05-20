@@ -33,6 +33,10 @@ class CodeEditor:
         self._configure_tags()
         self.text.bind("<<Modified>>", self._on_modified)
         self.text.edit_modified(False)
+        # focus editor on empty row at end
+        self.text.focus_set()
+        self.text.mark_set("insert", "end")
+        self.text.see("insert")
 
     def _configure_tags(self):
         """Create text tags for each pygments token style."""
