@@ -42,6 +42,16 @@ def main():
     # start inspection using a tweakable interval
     DEFAULT_INSPECT_INTERVAL = 1000  # milliseconds; adjust as needed
     inspector.start_inspection(interval=DEFAULT_INSPECT_INTERVAL)
+
+    def _on_escape(event):
+        # deselect selection if any, else exit
+        for w in (editor.text, inspector.text):
+            if w.tag_ranges("sel"):
+                w.tag_remove("sel", "1.0", tk.END)
+                return "break"
+        root.quit()
+
+    root.bind("<Escape>", _on_escape)
     root.mainloop()
 
 if __name__ == "__main__":
