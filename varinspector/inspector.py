@@ -60,7 +60,6 @@ class Inspector:
             else:
                 return_items.append(f"'{n}': {n}")
         func_code += "    return {" + ", ".join(return_items) + "}\n"
-        print(func_code)
         namespace = {}
         # load and exec prelude script
         config_dir = Path.home() / '.config' / 'pyxion'
@@ -77,6 +76,7 @@ class Inspector:
         except Exception as e:
             print(f"Inspection failed: {e}", file=sys.stderr)
             result = {'error': str(e)}
+        print(func_code)
         self.text.config(state=tk.NORMAL)
         self.text.delete("1.0", tk.END)
         for k, v in result.items():
