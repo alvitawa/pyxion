@@ -59,6 +59,7 @@ class Inspector:
             else:
                 return_items.append(f"'{n}': {n}")
         func_code += "    return {" + ", ".join(return_items) + "}\n"
+        print(func_code)
         namespace = {}
         try:
             exec(func_code, namespace)
