@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkfont
 import re
+import sys
 
 class Inspector:
     def __init__(self, parent, editor):
@@ -55,6 +56,7 @@ class Inspector:
             exec(func_code, namespace)
             result = namespace['__varinspector']()
         except Exception as e:
+            print(f"Inspection failed: {e}", file=sys.stderr)
             result = {'error': str(e)}
         self.text.config(state=tk.NORMAL)
         self.text.delete("1.0", tk.END)

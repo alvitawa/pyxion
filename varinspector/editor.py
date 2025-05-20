@@ -4,6 +4,7 @@ import pygments
 from pygments.lexers import PythonLexer
 from pygments.styles import get_style_by_name
 import os
+import sys
 
 class CodeEditor:
     def __init__(self, parent):
@@ -41,8 +42,8 @@ class CodeEditor:
         try:
             with open(self._state_path, 'w') as f:
                 f.write(code)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Failed to save editor state: {e}", file=sys.stderr)
         self.text.edit_modified(False)
 
     def _highlight(self, code):
