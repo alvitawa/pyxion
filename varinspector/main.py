@@ -25,8 +25,8 @@ def main():
     paned = ttk.PanedWindow(root, orient=tk.HORIZONTAL)
     paned.pack(fill=tk.BOTH, expand=1)
 
-    editor = CodeEditor(paned)
-    inspector = Inspector(paned, editor)
+    editor = CodeEditor(paned, config_dir)
+    inspector = Inspector(paned, editor, config_dir)
 
     paned.add(editor.text_frame, weight=1)
     paned.add(inspector.frame, weight=1)

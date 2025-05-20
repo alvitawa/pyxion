@@ -10,8 +10,9 @@ import sys
 
 class CodeEditor:
     """GUI code editor supporting syntax highlighting and loading/saving state."""
-    def __init__(self, parent):
+    def __init__(self, parent, config_dir):
         """Set up the text widget, load saved state, and configure syntax highlighting."""
+        self.config_dir = config_dir
         self.text_frame = tk.Frame(parent)
         # line number gutter
         self.linenumbers = tk.Text(self.text_frame, width=2, padx=5, takefocus=0,
@@ -27,9 +28,7 @@ class CodeEditor:
         self.linenumbers.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
         # load and sync with state file
-        config_dir = Path.home() / '.config' / 'pyxion'
-        config_dir.mkdir(parents=True, exist_ok=True)
-        state_path = config_dir / 'state.py'
+        state_path = self.config_dir / 'state.py'
         if state_path.exists():
             with state_path.open('r') as f:
                 content = f.read()

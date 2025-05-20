@@ -7,9 +7,10 @@ from pathlib import Path
 
 class Inspector:
     """Real-time variable inspector pane linked to the code editor."""
-    def __init__(self, parent, editor):
+    def __init__(self, parent, editor, config_dir):
         self.frame = tk.Frame(parent)
         self.editor = editor
+        self.config_dir = config_dir
         self.text = tk.Text(self.frame, state=tk.DISABLED)
         # double the default font size
         font = tkfont.Font(font=self.text['font'])
@@ -62,8 +63,7 @@ class Inspector:
         func_code += "    return {" + ", ".join(return_items) + "}\n"
         namespace = {}
         # load prelude script text
-        config_dir = Path.home() / '.config' / 'pyxion'
-        prelude_path = config_dir / 'prelude.py'
+        prelude_path = self.config_dir / 'prelude.py'
         prelude_code = ''
         if prelude_path.exists():
             try:
