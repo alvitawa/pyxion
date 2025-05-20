@@ -61,17 +61,19 @@ class Inspector:
                 return_items.append(f"'{n}': {n}")
         func_code += "    return {" + ", ".join(return_items) + "}\n"
         namespace = {}
-        # load and exec prelude script
+        # load prelude script text
         config_dir = Path.home() / '.config' / 'pyxion'
         prelude_path = config_dir / 'prelude.py'
+        prelude_code = ''
         if prelude_path.exists():
             try:
-                with open(prelude_path, 'r') as f:
-                    exec(f.read(), namespace)
+                prelude_code = prelude_path.read_text()
             except Exception as e:
-                print(f"Failed to load prelude: {e}", file=sys.stderr)
+                print(f"Failed to read prelude: {e}", file=sys.stderr)
+        # execute prelude and user code in same namespace
+        full_code = prelude_code + "\n" + func_code
         try:
-            exec(func_code, namespace)
+            exec(full_code, namespace)
             result = namespace['__varinspector']()
         except Exception as e:
             print(f"Inspection failed: {e}", file=sys.stderr)
