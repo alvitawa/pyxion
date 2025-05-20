@@ -8,19 +8,11 @@ import toml
 
 class Inspector:
     """Real-time variable inspector pane linked to the code editor."""
-    def __init__(self, parent, editor, config_dir):
+    def __init__(self, parent, editor, config):
         self.frame = tk.Frame(parent)
         self.editor = editor
-        self.config_dir = config_dir
-        # load font_size from config
-        config_path = self.config_dir / 'config.toml'
-        font_size = 20
-        if config_path.exists():
-            try:
-                cfg = toml.loads(config_path.read_text())
-                font_size = int(cfg.get('font_size', font_size))
-            except Exception as e:
-                print(f"Failed to read config: {e}", file=sys.stderr)
+        self.config = config
+        font_size = self.config.font_size
         self.text = tk.Text(self.frame, state=tk.DISABLED)
         # double the default font size
         font = tkfont.Font(font=self.text['font'], size=font_size)
@@ -72,22 +64,14 @@ class Inspector:
         func_code += "    return {" + ", ".join(return_items) + "}\n"
         namespace = {}
         # load prelude script text
-        prelude_path = self.config_dir / 'prelude.py'
+        prelude_path = self.config.config_dir / 'prelude.py'
         prelude_code = ''
         if prelude_path.exists():
             try:
                 prelude_code = prelude_path.read_text()
             except Exception as e:
                 print(f"Failed to read prelude: {e}", file=sys.stderr)
-        # load config.toml for precision
-        config_path = self.config_dir / 'config.toml'
-        precision = 4
-        if config_path.exists():
-            try:
-                cfg = toml.loads(config_path.read_text())
-                precision = int(cfg.get('precision', precision))
-            except Exception as e:
-                print(f"Failed to read config: {e}", file=sys.stderr)
+        precision = self.config.precision
         # execute prelude and user code in same namespace
         full_code = prelude_code + "\n" + func_code
         try:

@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from .editor import CodeEditor
 from .inspector import Inspector
+from .config import Config
 
 def main():
     """Initialize GUI, editor, and inspector, then start the Tk event loop."""
@@ -21,6 +22,8 @@ def main():
         with open(config_path, 'w') as f:
             f.write('precision = 4\nfont_size = 20\n')
     root.title("Pyxion")
+    # load configuration
+    config = Config.load(config_dir)
     # set default windowed size and normal state
     root.geometry("520x340")
     root.attributes('-fullscreen', False)
@@ -30,8 +33,8 @@ def main():
     paned = ttk.PanedWindow(root, orient=tk.HORIZONTAL)
     paned.pack(fill=tk.BOTH, expand=1)
 
-    editor = CodeEditor(paned, config_dir)
-    inspector = Inspector(paned, editor, config_dir)
+    editor = CodeEditor(paned, config)
+    inspector = Inspector(paned, editor, config)
 
     paned.add(editor.text_frame, weight=1)
     paned.add(inspector.frame, weight=1)

@@ -11,18 +11,10 @@ import sys
 
 class CodeEditor:
     """GUI code editor supporting syntax highlighting and loading/saving state."""
-    def __init__(self, parent, config_dir):
+    def __init__(self, parent, config):
         """Set up the text widget, load saved state, and configure syntax highlighting."""
-        self.config_dir = config_dir
-        # load font_size from config
-        config_path = self.config_dir / 'config.toml'
-        font_size = 20
-        if config_path.exists():
-            try:
-                cfg = toml.loads(config_path.read_text())
-                font_size = int(cfg.get('font_size', font_size))
-            except Exception as e:
-                print(f"Failed to read config: {e}", file=sys.stderr)
+        self.config = config
+        font_size = self.config.font_size
         self.text_frame = tk.Frame(parent)
         # line number gutter
         self.linenumbers = tk.Text(self.text_frame, width=2, padx=5, takefocus=0,
@@ -37,7 +29,7 @@ class CodeEditor:
         self.linenumbers.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
         # load and sync with state file
-        state_path = self.config_dir / 'state.py'
+        state_path = self.config.config_dir / 'state.py'
         if state_path.exists():
             with state_path.open('r') as f:
                 content = f.read()
