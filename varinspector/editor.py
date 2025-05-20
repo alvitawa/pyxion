@@ -39,8 +39,8 @@ class CodeEditor:
             self.text.insert(tk.END, "\n")
         # focus editor at end
         self.text.focus_set()
-        self.text.mark_set("insert", "end")
-        self.text.see("insert")
+        # self.text.mark_set("insert", "end")
+        # self.text.see("insert")
 
     def _configure_tags(self):
         """Create text tags for each pygments token style."""
@@ -51,7 +51,7 @@ class CodeEditor:
 
     def _on_modified(self, event=None):
         """Respond to text edits: re-highlight text and save state."""
-        code = self.text.get("1.0", tk.END)
+        code = self.text.get("1.0", tk.END).strip(' \t\n')
         # self._highlight(code)
         # save state to file
         try:
@@ -59,7 +59,6 @@ class CodeEditor:
                 print(f"Saving editor state to {self._state_path}")
                 print(code)
                 f.write(code)
-                f.flush()
         except Exception as e:
             print(f"Failed to save editor state: {e}", file=sys.stderr)
         self.text.edit_modified(False)
