@@ -40,6 +40,11 @@ class CodeEditor:
         self.text.bind("<<Modified>>", self._on_modified)
         # update gutter whenever text changes
         self.text.bind("<<Modified>>", self._update_linenumbers, add="+")
+        # common keyboard shortcuts
+        self.text.bind('<Control-a>', self._select_all)
+        self.text.bind('<Control-A>', self._select_all)
+        self.text.bind('<Control-BackSpace>', self._delete_prev_word)
+        self.text.bind('<Control-Delete>', self._delete_next_word)
         self.text.edit_modified(False)
         # ensure there is an empty row at end
         content = self.text.get("1.0", tk.END)
@@ -89,3 +94,18 @@ class CodeEditor:
         self.linenumbers.tag_configure("right", justify=tk.RIGHT)
         self.linenumbers.insert("1.0", numbers, "right")
         self.linenumbers.config(state=tk.DISABLED)
+
+    def _select_all(self, event=None):
+        """Select all text in the editor."""
+        self.text.tag_add('sel', '1.0', tk.END)
+        return 'break'
+
+    def _delete_prev_word(self, event=None):
+        """Delete the word before the cursor."""
+        self.text.delete("insert wordstart", "insert")
+        return 'break'
+
+    def _delete_next_word(self, event=None):
+        """Delete the word after the cursor."""
+        self.text.delete("insert", "insert wordend")
+        return 'break'
