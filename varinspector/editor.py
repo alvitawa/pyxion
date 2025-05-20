@@ -44,7 +44,7 @@ class CodeEditor:
     def _on_modified(self, event=None):
         """Respond to text edits: re-highlight text and save state."""
         code = self.text.get("1.0", tk.END)
-        self._highlight(code)
+        # self._highlight(code)
         # save state to file
         try:
             with self._state_path.open('w') as f:
