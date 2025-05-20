@@ -48,7 +48,10 @@ class CodeEditor:
         # save state to file
         try:
             with self._state_path.open('w') as f:
+                print(f"Saving editor state to {self._state_path}")
+                print(code)
                 f.write(code)
+                f.flush()
         except Exception as e:
             print(f"Failed to save editor state: {e}", file=sys.stderr)
         self.text.edit_modified(False)
