@@ -92,6 +92,12 @@ class Inspector:
         self.text.config(state=tk.NORMAL)
         self.text.delete("1.0", tk.END)
         for k, v in result.items():
-            display = format(v, f".{precision}f") if isinstance(v, float) else v
+            if isinstance(v, float):
+                rounded_v = round(v, precision)
+                display = format(rounded_v, f".{precision}f")
+                if rounded_v != v:
+                    display += "~"
+            else:
+                display = v
             self.text.insert(tk.END, f"{k}: {display}\n")
         self.text.config(state=tk.DISABLED)
