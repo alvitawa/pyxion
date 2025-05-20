@@ -12,7 +12,7 @@ class Inspector:
         self.config = config
         font_size = self.config.font_size
         self.text = tk.Text(self.frame, state=tk.DISABLED)
-        font = tkfont.Font(font=self.text['font'], size=font_size)
+        font = tkfont.Font(family="Courier", size=font_size)
         self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
 
