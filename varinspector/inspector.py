@@ -4,6 +4,7 @@ import tkinter.font as tkfont
 import re
 import sys
 from pathlib import Path
+import toml
 
 class Inspector:
     """Real-time variable inspector pane linked to the code editor."""
@@ -70,6 +71,15 @@ class Inspector:
                 prelude_code = prelude_path.read_text()
             except Exception as e:
                 print(f"Failed to read prelude: {e}", file=sys.stderr)
+        # load config.toml for precision
+        config_path = self.config_dir / 'config.toml'
+        precision = 4
+        if config_path.exists():
+            try:
+                cfg = toml.loads(config_path.read_text())
+                precision = int(cfg.get('precision', precision))
+            except Exception as e:
+                print(f"Failed to read config: {e}", file=sys.stderr)
         # execute prelude and user code in same namespace
         full_code = prelude_code + "\n" + func_code
         try:
@@ -82,5 +92,6 @@ class Inspector:
         self.text.config(state=tk.NORMAL)
         self.text.delete("1.0", tk.END)
         for k, v in result.items():
-            self.text.insert(tk.END, f"{k}: {v}\n")
+            display = format(v, f".{precision}f") if isinstance(v, float) else v
+            self.text.insert(tk.END, f"{k}: {display}\n")
         self.text.config(state=tk.DISABLED)
