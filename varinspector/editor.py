@@ -20,14 +20,14 @@ class CodeEditor:
         self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
         # load and sync with state file
-        config_path = Path.home() / '.config' / 'pyxion'
-        config_path.parent.mkdir(parents=True, exist_ok=True)
-        state_path = config_path / 'state.py'
+        config_dir = Path.home() / '.config' / 'pyxion'
+        config_dir.mkdir(parents=True, exist_ok=True)
+        state_path = config_dir / 'state.py'
         if state_path.exists():
-            with open(state_path, 'r') as f:
+            with state_path.open('r') as f:
                 content = f.read()
             self.text.insert('1.0', content)
-        self._state_path = config_path
+        self._state_path = state_path
         self._lexer = PythonLexer()
         self._style = get_style_by_name('default')
         self._configure_tags()
