@@ -13,6 +13,11 @@ class CodeEditor:
     def __init__(self, parent):
         """Set up the text widget, load saved state, and configure syntax highlighting."""
         self.text_frame = tk.Frame(parent)
+        # line number gutter
+        self.linenumbers = tk.Text(self.text_frame, width=4, padx=5, takefocus=0,
+                                   border=0, background='lightgrey', state=tk.DISABLED,
+                                   wrap=tk.NONE)
+        self.linenumbers.pack(side=tk.LEFT, fill=tk.Y)
         self.text = tk.Text(self.text_frame, wrap=tk.NONE)
         # double the default font size
         font = tkfont.Font(font=self.text['font'])
@@ -39,6 +44,8 @@ class CodeEditor:
             self.text.insert(tk.END, "\n")
         # focus editor at end
         self.text.focus_set()
+        # update line numbers
+        self._update_linenumbers()
         # self.text.mark_set("insert", "end")
         # self.text.see("insert")
 
@@ -70,3 +77,12 @@ class CodeEditor:
         for token, content in pygments.lex(code, self._lexer):
             self.text.insert(index, content, str(token))
             index = self.text.index(f"{index} + {len(content)} chars")
+
+    def _update_linenumbers(self, event=None):
+        """Refresh the line number gutter."""
+        self.linenumbers.config(state=tk.NORMAL)
+        self.linenumbers.delete("1.0", tk.END)
+        line_count = int(self.text.index('end-1c').split('.')[0])
+        numbers = "\n".join(str(i) for i in range(1, line_count+1))
+        self.linenumbers.insert("1.0", numbers)
+        self.linenumbers.config(state=tk.DISABLED)

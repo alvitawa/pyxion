@@ -32,6 +32,8 @@ class Inspector:
     def _inspect(self):
         """Evaluate the editor's code, extract variables, and display their values."""
         code = self.editor.text.get("1.0", tk.END)
+        # replace ${X} tokens with variable names
+        code = re.sub(r'\$\{(\d+)\}', lambda m: f"__var_{m.group(1)}", code)
         lines = code.splitlines()
         func_code = "def __varinspector():\n"
         var_names = set()
