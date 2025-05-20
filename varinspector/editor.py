@@ -17,10 +17,11 @@ class CodeEditor:
         self.text.configure(font=font)
         self.text.pack(fill=tk.BOTH, expand=1)
         # load and sync with state file
-        config_path = Path.home() / '.config' / 'pyxion' / 'state.py'
+        config_path = Path.home() / '.config' / 'pyxion'
         config_path.parent.mkdir(parents=True, exist_ok=True)
-        if config_path.exists():
-            with open(config_path, 'r') as f:
+        state_path = config_path / 'state.py'
+        if state_path.exists():
+            with open(state_path, 'r') as f:
                 content = f.read()
             self.text.insert('1.0', content)
         self._state_path = config_path

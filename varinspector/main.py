@@ -7,7 +7,7 @@ def main():
     root = tk.Tk()
     root.title("VarInspector")
     # set default windowed size and normal state
-    root.geometry("320x240")
+    root.geometry("520x340")
     root.attributes('-fullscreen', False)
     # hint to the WM (sway/Wayland) to open this window as floating
     root.wm_attributes('-type', 'dialog')
