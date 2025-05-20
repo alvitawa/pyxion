@@ -1,9 +1,11 @@
+"""VarInspector main module: sets up the GUI and starts the application."""
 import tkinter as tk
 from tkinter import ttk
 from .editor import CodeEditor
 from .inspector import Inspector
 
 def main():
+    """Initialize GUI, editor, and inspector, then start the Tk event loop."""
     root = tk.Tk()
     root.title("VarInspector")
     # set default windowed size and normal state

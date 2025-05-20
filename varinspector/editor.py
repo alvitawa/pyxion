@@ -1,3 +1,4 @@
+"""CodeEditor module: provides a text editor with syntax highlighting and state persistence."""
 import tkinter as tk
 import tkinter.font as tkfont
 import pygments
@@ -8,7 +9,9 @@ import os
 import sys
 
 class CodeEditor:
+    """GUI code editor supporting syntax highlighting and loading/saving state."""
     def __init__(self, parent):
+        """Set up the text widget, load saved state, and configure syntax highlighting."""
         self.text_frame = tk.Frame(parent)
         self.text = tk.Text(self.text_frame, wrap=tk.NONE)
         # double the default font size
@@ -32,12 +35,14 @@ class CodeEditor:
         self.text.edit_modified(False)
 
     def _configure_tags(self):
+        """Create text tags for each pygments token style."""
         for token, style in self._style:
             color = style['color']
             if color:
                 self.text.tag_configure(str(token), foreground=f"#{color}")
 
     def _on_modified(self, event=None):
+        """Respond to text edits: re-highlight text and save state."""
         code = self.text.get("1.0", tk.END)
         self._highlight(code)
         # save state to file
@@ -49,6 +54,7 @@ class CodeEditor:
         self.text.edit_modified(False)
 
     def _highlight(self, code):
+        """Apply pygments lexing to insert colored text tags."""
         self.text.delete("1.0", tk.END)
         index = "1.0"
         for token, content in pygments.lex(code, self._lexer):

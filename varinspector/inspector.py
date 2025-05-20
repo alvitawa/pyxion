@@ -1,9 +1,11 @@
+"""Inspector module: evaluates editor code and displays variable values."""
 import tkinter as tk
 import tkinter.font as tkfont
 import re
 import sys
 
 class Inspector:
+    """Real-time variable inspector pane linked to the code editor."""
     def __init__(self, parent, editor):
         self.frame = tk.Frame(parent)
         self.editor = editor
@@ -15,16 +17,19 @@ class Inspector:
         self.text.pack(fill=tk.BOTH, expand=1)
 
     def start_inspection(self, interval=1000):
+        """Begin periodic or event-driven inspection of editor content."""
         # initial inspection and bind to editor changes instead of polling
         self._inspect()
         self.editor.text.edit_modified(False)
         self.editor.text.bind("<<Modified>>", self._on_modified)
 
     def _on_modified(self, event=None):
+        """Handle editor changes by triggering a new inspection cycle."""
         self._inspect()
         self.editor.text.edit_modified(False)
 
     def _inspect(self):
+        """Evaluate the editor's code, extract variables, and display their values."""
         code = self.editor.text.get("1.0", tk.END)
         lines = code.splitlines()
         func_code = "def __varinspector():\n"
