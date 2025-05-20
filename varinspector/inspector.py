@@ -29,6 +29,8 @@ class Inspector:
         func_code = "def __varinspector():\n"
         var_names = set()
         for idx, line in enumerate(lines, start=1):
+            if not line.strip():
+                continue
             if re.match(r'\s*([a-zA-Z_]\w*)\s*=', line):
                 func_code += f"    {line}\n"
                 var_name = re.match(r'\s*([a-zA-Z_]\w*)\s*=', line).group(1)
