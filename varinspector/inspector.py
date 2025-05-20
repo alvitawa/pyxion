@@ -28,6 +28,7 @@ class Inspector:
         lines = code.splitlines()
         func_code = "def __varinspector():\n"
         var_names = set()
+        var_order = []
         for idx, line in enumerate(lines, start=1):
             if not line.strip():
                 continue
@@ -35,12 +36,14 @@ class Inspector:
                 func_code += f"    {line}\n"
                 var_name = re.match(r'\s*([a-zA-Z_]\w*)\s*=', line).group(1)
                 var_names.add(var_name)
+                var_order.append(var_name)
             else:
                 temp_var = f"__var_{idx}"
                 func_code += f"    {temp_var} = {line}\n"
                 var_names.add(temp_var)
+                var_order.append(temp_var)
         return_items = []
-        for n in var_names:
+        for n in var_order:
             if n.startswith("__var_"):
                 idx = n.split("_")[-1]
                 return_items.append(f"'{idx}': {n}")
