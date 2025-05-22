@@ -45,6 +45,11 @@ font_size = 20
 
 This Python script is executed before your code in the editor. You can use it to import commonly used modules or define helper functions that will be available in your Pyxion sessions.
 
+You need to use `pipx inject {package-name}` to install any packages you want to use in `prelude.py`. For example, if you want to use `numpy`, run:
+```bash
+pipx inject pyxion numpy
+```
+
 If it doesn't exist, a default `prelude.py` will be created with:
 ```python
 import numpy as np
