@@ -1,3 +1,4 @@
 pygments
 numpy
 toml
+sympy

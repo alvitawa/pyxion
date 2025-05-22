@@ -24,6 +24,7 @@ def main():
     root.title("Pyxion")
     # load configuration
     config = Config.load(config_dir)
+    config.log()
     # set default windowed size and normal state
     root.geometry("520x340")
     root.attributes('-fullscreen', False)

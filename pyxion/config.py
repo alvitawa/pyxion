@@ -25,3 +25,9 @@ class Config:
             precision=int(data.get('precision', cls.precision)),
             font_size=int(data.get('font_size', cls.font_size)),
         )
+
+    def log(self):
+        """Log the current configuration."""
+        print(f"Config loaded: {self.config_dir}")
+        print(f"Precision: {self.precision}")
+        print(f"Font size: {self.font_size}")
